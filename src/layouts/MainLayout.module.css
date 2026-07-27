@@ -1,0 +1,43 @@
+/* src/layouts/MainLayout.module.css */
+
+.layout {
+
+  min-height: 100vh;
+
+  background: #000;
+
+  color: white;
+
+}
+
+/*
+  Everything beside sidebar
+*/
+
+.main {
+
+  margin-left: 260px;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+/*
+  Page content area
+*/
+
+.content {
+
+  flex: 1;
+
+  padding: 24px;
+
+  overflow-y: auto;
+
+  padding-bottom: 120px;
+
+}

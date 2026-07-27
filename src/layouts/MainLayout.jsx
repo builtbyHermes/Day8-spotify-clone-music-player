@@ -1,14 +1,42 @@
+// src/layouts/MainLayout.jsx
+
 import { Outlet } from "react-router-dom";
 
-//it is still to be improved
+import Sidebar from "./components/Sidebar/Sidebar";
+import Topbar from "./components/Topbar/Topbar";
+import Player from "../features/player/components/Player";
 
-function MainLayout(){
-    return (
-        <main>
-            <sideBar/>
-            <TopBar/>
-            <Player/>
-            <Outlet/>
-        </main>
-    )
+import styles from "./MainLayout.module.css";
+
+
+function MainLayout() {
+
+  return (
+
+    <div className={styles.layout}>
+
+      <Sidebar />
+
+
+      <main className={styles.main}>
+
+        <Topbar />
+
+
+        <section className={styles.content}>
+          <Outlet />
+        </section>
+
+
+      </main>
+
+
+      <Player />
+
+    </div>
+
+  );
 }
+
+
+export default MainLayout;

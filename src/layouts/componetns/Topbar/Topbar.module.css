@@ -1,0 +1,132 @@
+/* Topbar.module.css */
+
+
+.topbar {
+
+  height: 70px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  background: #0b0b0b;
+
+  border-bottom: 1px solid #1f1f1f;
+
+}
+
+
+
+.search {
+
+  width: 420px;
+
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  background: #171717;
+
+  border-radius: 10px;
+
+  padding: 0 16px;
+
+  color: #888;
+
+}
+
+
+
+.search input {
+
+  flex: 1;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  font-size: 14px;
+
+}
+
+
+
+.search input::placeholder {
+
+  color: #777;
+
+}
+
+
+
+.actions {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+}
+
+
+
+.iconButton {
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+}
+
+
+
+.profile {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: white;
+
+}
+
+
+
+.avatar {
+
+  width: 36px;
+
+  height: 36px;
+
+  border-radius: 50%;
+
+  background: #333;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-weight: 600;
+
+}
