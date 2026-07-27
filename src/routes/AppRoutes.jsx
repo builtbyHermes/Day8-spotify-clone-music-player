@@ -1,39 +1,67 @@
-// src/routes/AppRoutes.jsx
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
+// Pages from features
+
 import Home from "../features/home/pages/Home";
 import Search from "../features/search/pages/Search";
-import Album from "../features/albums/pages/Album";
-import Artist from "../features/artists/pages/Artist";
-import Playlist from "../features/playlists/pages/Playlist";
 import Library from "../features/library/pages/Library";
-import LikedSongs from "../features/likedSongs/pages/LikedSongs";
+import Album from "../features/albums/pages/Album";
+import Playlist from "../features/playlists/pages/Playlist";
+
 
 function AppRoutes() {
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
 
-          <Route path="/search" element={<Search />} />
+    <Routes>
 
-          <Route path="/album/:albumId" element={<Album />} />
+      <Route
+        path="/"
+        element={<MainLayout />}
+      >
 
-          <Route path="/artist/:artistId" element={<Artist />} />
+        {/* Home */}
 
-          <Route path="/playlist/:playlistId" element={<Playlist />} />
+        <Route
+          index
+          element={<Home />}
+        />
 
-          <Route path="/library" element={<Library />} />
+        {/* Search */}
 
-          <Route path="/liked" element={<LikedSongs />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        <Route
+          path="search"
+          element={<Search />}
+        />
+
+        {/* Library */}
+
+        <Route
+          path="library"
+          element={<Library />}
+        />
+
+        {/* Album */}
+
+        <Route
+          path="album/:id"
+          element={<Album />}
+        />
+
+        {/* Playlist */}
+
+        <Route
+          path="playlist/:id"
+          element={<Playlist />}
+        />
+
+      </Route>
+
+    </Routes>
   );
 }
+
 
 export default AppRoutes;
