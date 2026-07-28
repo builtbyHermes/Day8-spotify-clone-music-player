@@ -1,0 +1,59 @@
+.section {
+
+  margin-bottom: 40px;
+
+}
+
+.header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+
+}
+
+.title {
+
+  font-size: 1.5rem;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+}
+
+.showAllButton {
+
+  background: none;
+
+  border: none;
+
+  color: #b3b3b3;
+
+  cursor: pointer;
+
+  font-size: 0.9rem;
+
+  transition: color 0.2s ease;
+
+}
+
+.showAllButton:hover {
+
+  color: #ffffff;
+
+}
+
+.content {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+
+}
