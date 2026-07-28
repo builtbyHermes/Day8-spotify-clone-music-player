@@ -4,16 +4,21 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 import { PlayerProvider } from "./features/player/context/PlayerContext";
+import { AuthProvider } from "./context/AuthContext";
 
 
 ReactDOM
 .createRoot(document.getElementById("root"))
 .render(
 
-  <PlayerProvider>
+  <AuthProvider>
 
-    <App />
+    <PlayerProvider>
 
-  </PlayerProvider>
+      <App />
+
+    </PlayerProvider>
+
+  </AuthProvider>
 
 );

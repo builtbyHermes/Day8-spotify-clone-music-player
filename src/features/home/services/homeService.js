@@ -2,19 +2,27 @@
 
 import {
   hero,
-  featuredAlbums,
   featuredPlaylists,
   popularArtists,
   recentlyPlayed,
   recommendations,
 } from "../data/homeData";
+import spotifyRequest from "../../../services/spotifyApi";
+
 
 export function getHero() {
   return hero;
 }
 
-export function getFeaturedAlbums() {
-  return featuredAlbums;
+export async function getFeaturedAlbums(token){
+
+  const data = await spotifyRequest(
+    "/browse/featured-playlists",
+    token
+  );
+
+
+  return data;
 }
 
 export function getFeaturedPlaylists() {
