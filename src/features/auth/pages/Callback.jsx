@@ -1,46 +1,19 @@
 // src/features/auth/pages/Callback.jsx
 
-import {
-  useEffect
-} from "react";
-
-
-import {
-  useNavigate
-} from "react-router-dom";
-
-
-import {
-  exchangeCodeForToken
-} from "../../../services/spotifyAuth";
-
-
-import {
-  getCurrentUser
-} from "../../../services/spotifyUser";
-
-
-import {
-  useAuth
-} from "../../../context/AuthContext";
-
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {exchangeCodeForToken} from "../../../services/spotifyAuth";
+import {getCurrentUser} from "../../../services/spotifyUser";
+import {useAuth} from "../../../context/AuthContext";
 
 
 function Callback(){
 
-
   const navigate = useNavigate();
 
-
-  const {
-    login
-  } = useAuth();
-
-
-
+  const {login} = useAuth();
 
   useEffect(()=>{
-
 
     async function authenticate(){
 
@@ -55,31 +28,18 @@ function Callback(){
       const code =
         params.get("code");
 
-
-
       if(!code){
-
         return;
-
       }
 
-
-
       try{
-
-
-        // 1. Get access token
+     // 1. Get access token
 
         const tokenData =
           await exchangeCodeForToken(code);
 
-
-
         const accessToken =
           tokenData.access_token;
-
-
-
 
         // 2. Get user profile
 
@@ -87,8 +47,6 @@ function Callback(){
           await getCurrentUser(
             accessToken
           );
-
-
 
 
         // 3. Save authentication

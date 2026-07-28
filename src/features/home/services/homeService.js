@@ -1,42 +1,45 @@
 // src/features/home/services/homeService.js
 
-import {
-  hero,
-  featuredPlaylists,
-  popularArtists,
-  recentlyPlayed,
-  recommendations,
-} from "../data/homeData";
+import { hero } from "../data/homeData";
+
 import spotifyRequest from "../../../services/spotifyApi";
 
+import {
+  mapPlaylist,
+  mapAlbum,
+} from "../../../utils/spotifyMapper";
+
+
+// Hero (keep local)
 
 export function getHero() {
   return hero;
 }
 
-export async function getFeaturedAlbums(token){
+
+// Featured Playlists (Spotify)
+
+export async function getFeaturedPlaylists(token) {
 
   const data = await spotifyRequest(
     "/browse/featured-playlists",
     token
   );
 
+  return data.playlists.items.map(mapPlaylist);
 
-  return data;
 }
 
-export function getFeaturedPlaylists() {
-  return featuredPlaylists;
-}
 
-export function getPopularArtists() {
-  return popularArtists;
-}
+// New Releases (Spotify)
 
-export function getRecentlyPlayed() {
-  return recentlyPlayed;
-}
+export async function getNewReleases(token) {
 
-export function getRecommendations() {
-  return recommendations;
+  const data = await spotifyRequest(
+    "/browse/new-releases",
+    token
+  );
+
+  return data.albums.items.map(mapAlbum);
+
 }

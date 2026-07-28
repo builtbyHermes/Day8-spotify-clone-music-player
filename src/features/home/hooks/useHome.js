@@ -1,63 +1,91 @@
-// src/features/home/hooks/useHome.js
-
 import { useEffect, useState } from "react";
+
+import { useAuth } from "../../../context/AuthContext";
 
 import {
   getHero,
-  getFeaturedAlbums,
   getFeaturedPlaylists,
-  getPopularArtists,
-  getRecentlyPlayed,
-  getRecommendations,
+  getNewReleases,
 } from "../services/homeService";
 
-function useHome() {
-  const [hero, setHero] = useState(null);
 
-  const [featuredAlbums, setFeaturedAlbums] = useState([]);
+function useHome() {
+
+  const { accessToken } = useAuth();
+
+  const [hero, setHero] = useState(null);
 
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
 
-  const [popularArtists, setPopularArtists] = useState([]);
-
-  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-
-  const [recommendations, setRecommendations] = useState([]);
+  const [newReleases, setNewReleases] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
-    try {
-      setHero(getHero());
 
-      setFeaturedAlbums(getFeaturedAlbums());
+    async function loadHome() {
 
-      setFeaturedPlaylists(getFeaturedPlaylists());
+      try {
 
-      setPopularArtists(getPopularArtists());
+        setLoading(true);
 
-      setRecentlyPlayed(getRecentlyPlayed());
+        // Local hero
+        setHero(getHero());
 
-      setRecommendations(getRecommendations());
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+        if (!accessToken) return;
+
+        const [
+          playlists,
+          releases,
+        ] = await Promise.all([
+
+          getFeaturedPlaylists(accessToken),
+
+          getNewReleases(accessToken),
+
+        ]);
+
+        setFeaturedPlaylists(playlists);
+
+        setNewReleases(releases);
+
+      } catch (err) {
+
+        console.error(err);
+
+        setError(err);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
     }
-  }, []);
+
+    loadHome();
+
+  }, [accessToken]);
+
 
   return {
+
     hero,
-    featuredAlbums,
+
     featuredPlaylists,
-    popularArtists,
-    recentlyPlayed,
-    recommendations,
+
+    newReleases,
+
     loading,
+
     error,
+
   };
+
 }
+
 
 export default useHome;

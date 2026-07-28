@@ -26,14 +26,11 @@ function AppRoutes() {
 
     <Routes>
 
-
       {/* Login */}
-
       <Route
         path="/login"
         element={<Login />}
       />
-
 
       {/* Spotify Callback */}
 
