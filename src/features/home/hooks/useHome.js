@@ -36,7 +36,10 @@ function useHome() {
 
   const [error, setError] = useState(null);
 
-
+ console.log(
+  "featured playlists:",
+  featuredPlaylists
+);
 
   useEffect(() => {
 

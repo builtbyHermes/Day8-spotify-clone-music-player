@@ -1,17 +1,11 @@
 // src/features/home/pages/Home.jsx
 
 import Hero from "../components/Hero/Hero";
-
 import Section from "../components/Section/Section";
-
 import RecentlyPlayed from "../components/RecentlyPlayed/RecentlyPlayed";
-
 import AlbumGrid from "../components/AlbumGrid/AlbumGrid";
-
-import PlaylistGrid from "../components/PlaylistGrid/PlaylistGrid";
-
+import PlaylistGrid from "../components/PlaylistGrid/";
 import ArtistGrid from "../components/ArtistGrid/ArtistGrid";
-
 import RecommendationSection from "../components/RecommendationSection/RecommendationSection";
 
 
