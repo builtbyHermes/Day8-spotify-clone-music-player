@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {exchangeCodeForToken} from "../../../services/spotifyAuth";
 import {getCurrentUser} from "../../../services/spotifyUser";
 import {useAuth} from "../../../context/AuthContext";
+import Login from "./Login";
 
 
 function Callback(){
@@ -15,67 +16,94 @@ function Callback(){
 
   useEffect(()=>{
 
-    async function authenticate(){
+     async function authenticate(){
+
+  console.log("Callback started");
 
 
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const code =
+    params.get("code");
+
+
+  console.log("Spotify code:", code);
+
+
+  if(!code){
+    console.log("No code found");
+    return;
+  }
+
+
+  try {
+
+    console.log("Exchanging code...");
+
+
+    const tokenData =
+      await exchangeCodeForToken(code);
+
+
+    console.log(
+      "Token response:",
+      tokenData
+    );
+
+
+    const accessToken =
+      tokenData.access_token;
 
 
 
-      const code =
-        params.get("code");
-
-      if(!code){
-        return;
-      }
-
-      try{
-     // 1. Get access token
-
-        const tokenData =
-          await exchangeCodeForToken(code);
-
-        const accessToken =
-          tokenData.access_token;
-
-        // 2. Get user profile
-
-        const user =
-          await getCurrentUser(
-            accessToken
-          );
+    console.log(
+      "Fetching user..."
+    );
 
 
-        // 3. Save authentication
+    const user =
+      await getCurrentUser(
+        accessToken
+      );
 
-        login(
-          accessToken,
-          user
-        );
+
+    console.log(
+      "Spotify user:",
+      user
+    );
 
 
 
-
-        // 4. Go to app
-
-        navigate("/");
-
-
-      }
-      catch(error){
-
-        console.error(
-          error
-        );
-
-      }
+    login(
+      accessToken,
+      user
+    );
 
 
-    }
+    console.log(
+      "Logged in, navigating..."
+    );
 
+
+    navigate("/");
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "AUTH ERROR:",
+      error
+    );
+
+  }
+
+}
 
 
     authenticate();
@@ -91,7 +119,8 @@ function Callback(){
     <div>
 
       Connecting Spotify...
-
+      
+      
     </div>
 
   );
