@@ -19,11 +19,10 @@ export function AuthProvider({ children }) {
   );
 
 
-  const [user, setUser] = useState(
-    JSON.parse(
-      localStorage.getItem("spotify_user")
-    )
-  );
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("spotify_user");
+    return stored ? JSON.parse(stored) : null;
+  });
 
 
 

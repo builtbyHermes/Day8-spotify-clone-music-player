@@ -1,13 +1,14 @@
 import {
   createContext,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
 
+import { getNextSong } from "../utils/getNextSong";
 
-const PlayerContext = createContext();
+
+export const PlayerContext = createContext();
 
 
 export function PlayerProvider({ children }) {

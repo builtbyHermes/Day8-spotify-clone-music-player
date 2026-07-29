@@ -5,25 +5,19 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 
 import {
-
   getHero,
-
   getFeaturedAlbums,
-
   getFeaturedPlaylists,
-
   getPopularArtists,
-
   getRecentlyPlayed,
-
   getRecommendations,
-
 } from "../services/homeService";
 
 
 function useHome() {
 
   const { accessToken } = useAuth();
+
 
   const [hero, setHero] = useState(null);
 
@@ -37,76 +31,124 @@ function useHome() {
 
   const [recommendations, setRecommendations] = useState([]);
 
+
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState(null);
 
 
+
   useEffect(() => {
+
 
     async function loadHome() {
 
+
       try {
+
 
         setLoading(true);
 
-        // Local (mock) data
+
+
+        // -------------------------
+        // Mock Data
+        // -------------------------
+
         setHero(getHero());
 
-        setPopularArtists(getPopularArtists());
+        setPopularArtists(
+          getPopularArtists()
+        );
 
-        setRecommendations(getRecommendations());
+        setRecommendations(
+          getRecommendations()
+        );
 
+
+
+        // -------------------------
+        // Spotify Data
+        // -------------------------
 
         if (accessToken) {
 
+
           const [
 
-            albums,
-
             playlists,
+
+            albums,
 
             recentTracks,
 
           ] = await Promise.all([
 
-            getFeaturedAlbums(accessToken),
 
-            getFeaturedPlaylists(accessToken),
+            getFeaturedPlaylists(
+              accessToken
+            ),
 
-            getRecentlyPlayed(accessToken),
+
+            getFeaturedAlbums(
+              accessToken
+            ),
+
+
+            getRecentlyPlayed(
+              accessToken
+            ),
 
           ]);
 
 
-          setFeaturedAlbums(albums);
 
-          setFeaturedPlaylists(playlists);
+          setFeaturedPlaylists(
+            playlists
+          );
 
-          setRecentlyPlayed(recentTracks);
+
+          setFeaturedAlbums(
+            albums
+          );
+
+
+          setRecentlyPlayed(
+            recentTracks
+          );
 
         }
 
+
       } catch (err) {
+
 
         console.error(err);
 
         setError(err);
 
+
       } finally {
+
 
         setLoading(false);
 
+
       }
+
 
     }
 
+
     loadHome();
+
 
   }, [accessToken]);
 
 
+
   return {
+
 
     hero,
 
@@ -123,6 +165,7 @@ function useHome() {
     loading,
 
     error,
+
 
   };
 

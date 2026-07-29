@@ -1,6 +1,6 @@
 // src/features/player/components/Player.jsx
 
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../hooks/usePlayer";
 
 import SongInfo from "./SongInfo";
 import PlayerControls from "./PlayerControls";

@@ -1,106 +1,27 @@
-import { useEffect, useState } from "react";
+// src/features/home/pages/Home.jsx
 
-import { useAuth } from "../../../context/AuthContext";
+import Hero from "../components/Hero/Hero";
 
-import {
+import Section from "../components/Section/Section";
 
-  getHero,
+import RecentlyPlayed from "../components/RecentlyPlayed/RecentlyPlayed";
 
-  getFeaturedPlaylists,
+import AlbumGrid from "../components/AlbumGrid/AlbumGrid";
 
-  getNewReleases,
+import PlaylistGrid from "../components/PlaylistGrid/PlaylistGrid";
 
-  getPopularArtists,
+import ArtistGrid from "../components/ArtistGrid/ArtistGrid";
 
-  getRecentlyPlayed,
-
-  getRecommendations,
-
-} from "../services/homeService";
+import RecommendationSection from "../components/RecommendationSection/RecommendationSection";
 
 
-function useHome() {
-
-  const { accessToken } = useAuth();
-
-  const [hero, setHero] = useState(null);
-
-  const [featuredAlbums, setFeaturedAlbums] = useState([]);
-
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
-
-  const [popularArtists, setPopularArtists] = useState([]);
-
-  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-
-  const [recommendations, setRecommendations] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState(null);
+import useHome from "../hooks/useHome";
 
 
-  useEffect(() => {
-
-    async function loadHome() {
-
-      try {
-
-        setLoading(true);
-
-        // Mock data
-        setHero(getHero());
-
-        setPopularArtists(getPopularArtists());
-
-        setRecentlyPlayed(getRecentlyPlayed());
-
-        setRecommendations(getRecommendations());
+function Home() {
 
 
-        if (accessToken) {
-
-          const [
-
-            playlists,
-
-            albums,
-
-          ] = await Promise.all([
-
-            getFeaturedPlaylists(accessToken),
-
-            getNewReleases(accessToken),
-
-          ]);
-
-
-          setFeaturedPlaylists(playlists);
-
-          setFeaturedAlbums(albums);
-
-        }
-
-      } catch (err) {
-
-        console.error(err);
-
-        setError(err);
-
-      } finally {
-
-        setLoading(false);
-
-      }
-
-    }
-
-    loadHome();
-
-  }, [accessToken]);
-
-
-  return {
+  const {
 
     hero,
 
@@ -118,8 +39,104 @@ function useHome() {
 
     error,
 
-  };
+  } = useHome();
+
+
+
+  if (loading) {
+
+    return <p>Loading...</p>;
+
+  }
+
+
+
+  if (error) {
+
+    return <p>Something went wrong.</p>;
+
+  }
+
+
+
+  return (
+
+    <>
+
+
+      <Hero
+
+        hero={hero}
+
+      />
+
+
+
+      <Section title="Recently Played">
+
+        <RecentlyPlayed
+
+          songs={recentlyPlayed}
+
+        />
+
+      </Section>
+
+
+
+
+      <Section title="Featured Albums">
+
+        <AlbumGrid
+
+          albums={featuredAlbums}
+
+        />
+
+      </Section>
+
+
+
+
+      <Section title="Made For You">
+
+        <PlaylistGrid
+
+          playlists={featuredPlaylists}
+
+        />
+
+      </Section>
+
+
+
+
+      <Section title="Popular Artists">
+
+        <ArtistGrid
+
+          artists={popularArtists}
+
+        />
+
+      </Section>
+
+
+
+
+      <RecommendationSection
+
+        recommendations={recommendations}
+
+      />
+
+
+
+    </>
+
+  );
 
 }
 
-export default useHome;
+
+export default Home;
