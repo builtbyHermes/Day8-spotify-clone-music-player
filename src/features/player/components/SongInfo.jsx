@@ -1,6 +1,6 @@
 // src/features/player/components/SongInfo.jsx
 
-import "./SongInfo.css";
+// import "./SongInfo.css";
 
 function SongInfo({ currentSong }) {
   const { cover, title, artist } = currentSong;

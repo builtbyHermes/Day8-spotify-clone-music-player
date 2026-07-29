@@ -1,6 +1,6 @@
 // src/features/player/components/PlayerControls.jsx
 
-import "./PlayerControls.css";
+// import "./PlayerControls.css";
 
 function PlayerControls({
   isPlaying,

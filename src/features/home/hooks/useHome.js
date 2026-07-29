@@ -1,11 +1,23 @@
+// src/features/home/hooks/useHome.js
+
 import { useEffect, useState } from "react";
 
 import { useAuth } from "../../../context/AuthContext";
 
 import {
+
   getHero,
+
+  getFeaturedAlbums,
+
   getFeaturedPlaylists,
-  getNewReleases,
+
+  getPopularArtists,
+
+  getRecentlyPlayed,
+
+  getRecommendations,
+
 } from "../services/homeService";
 
 
@@ -15,9 +27,15 @@ function useHome() {
 
   const [hero, setHero] = useState(null);
 
+  const [featuredAlbums, setFeaturedAlbums] = useState([]);
+
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
 
-  const [newReleases, setNewReleases] = useState([]);
+  const [popularArtists, setPopularArtists] = useState([]);
+
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+
+  const [recommendations, setRecommendations] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -32,25 +50,42 @@ function useHome() {
 
         setLoading(true);
 
-        // Local hero
+        // Local (mock) data
         setHero(getHero());
 
-        if (!accessToken) return;
+        setPopularArtists(getPopularArtists());
 
-        const [
-          playlists,
-          releases,
-        ] = await Promise.all([
+        setRecommendations(getRecommendations());
 
-          getFeaturedPlaylists(accessToken),
 
-          getNewReleases(accessToken),
+        if (accessToken) {
 
-        ]);
+          const [
 
-        setFeaturedPlaylists(playlists);
+            albums,
 
-        setNewReleases(releases);
+            playlists,
+
+            recentTracks,
+
+          ] = await Promise.all([
+
+            getFeaturedAlbums(accessToken),
+
+            getFeaturedPlaylists(accessToken),
+
+            getRecentlyPlayed(accessToken),
+
+          ]);
+
+
+          setFeaturedAlbums(albums);
+
+          setFeaturedPlaylists(playlists);
+
+          setRecentlyPlayed(recentTracks);
+
+        }
 
       } catch (err) {
 
@@ -75,9 +110,15 @@ function useHome() {
 
     hero,
 
+    featuredAlbums,
+
     featuredPlaylists,
 
-    newReleases,
+    popularArtists,
+
+    recentlyPlayed,
+
+    recommendations,
 
     loading,
 

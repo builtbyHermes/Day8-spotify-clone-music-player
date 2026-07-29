@@ -7,7 +7,7 @@ import PlayerControls from "./PlayerControls";
 import ProgressBar from "./ProgressBar";
 import VolumeControl from "./VolumeControl";
 
-import "./Player.css";
+// import "./Player.css";
 
 function Player() {
   const {

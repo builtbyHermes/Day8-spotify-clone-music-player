@@ -1,4 +1,4 @@
-import "./ProgressBar.css";
+// import "./ProgressBar.css";
 import { formatTime } from "../utils/formatTime";
 
 function ProgressBar({

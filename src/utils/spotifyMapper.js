@@ -75,3 +75,25 @@ export function mapTrack(track) {
   };
 
 }
+
+export function mapRecentlyPlayed(item) {
+
+  return {
+
+    id: item.track.id,
+
+    title: item.track.name,
+
+    artist: item.track.artists
+      .map(artist => artist.name)
+      .join(", "),
+
+    cover: item.track.album.images?.[0]?.url ?? "",
+
+    duration: item.track.duration_ms,
+
+    playedAt: item.played_at,
+
+  };
+
+}
