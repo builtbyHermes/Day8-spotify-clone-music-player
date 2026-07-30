@@ -2,14 +2,11 @@
 
 import Hero from "../components/Hero/Hero";
 import Section from "../components/Section/Section";
-import RecentlyPlayed from "../components/RecentlyPlayed/RecentlyPlayed";
 import AlbumGrid from "../components/AlbumGrid/AlbumGrid";
-import PlaylistGrid from "../components/PlaylistGrid/";
-import ArtistGrid from "../components/ArtistGrid/ArtistGrid";
-import RecommendationSection from "../components/RecommendationSection/RecommendationSection";
-
+import PlaylistGrid from "../components/PlaylistGrid/PlaylistGrid";
 
 import useHome from "../hooks/useHome";
+
 
 
 function Home() {
@@ -19,21 +16,17 @@ function Home() {
 
     hero,
 
-    featuredAlbums,
-
     featuredPlaylists,
 
-    popularArtists,
-
-    recentlyPlayed,
-
-    recommendations,
+    newReleases,
 
     loading,
 
     error,
 
+
   } = useHome();
+
 
 
 
@@ -53,6 +46,7 @@ function Home() {
 
 
 
+
   return (
 
     <>
@@ -66,33 +60,9 @@ function Home() {
 
 
 
-      <Section title="Recently Played">
 
-        <RecentlyPlayed
+      <Section title="Featured Playlists">
 
-          songs={recentlyPlayed}
-
-        />
-
-      </Section>
-
-
-
-
-      <Section title="Featured Albums">
-
-        <AlbumGrid
-
-          albums={featuredAlbums}
-
-        />
-
-      </Section>
-
-
-
-
-      <Section title="Made For You">
 
         <PlaylistGrid
 
@@ -100,29 +70,24 @@ function Home() {
 
         />
 
+
       </Section>
 
 
 
 
-      <Section title="Popular Artists">
 
-        <ArtistGrid
+      <Section title="New Releases">
 
-          artists={popularArtists}
+
+        <AlbumGrid
+
+          albums={newReleases}
 
         />
 
+
       </Section>
-
-
-
-
-      <RecommendationSection
-
-        recommendations={recommendations}
-
-      />
 
 
 
@@ -131,6 +96,7 @@ function Home() {
   );
 
 }
+
 
 
 export default Home;

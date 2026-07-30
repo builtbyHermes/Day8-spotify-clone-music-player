@@ -3,7 +3,6 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {exchangeCodeForToken} from "../../../services/spotifyAuth";
-import {getCurrentUser} from "../../../services/spotifyUser";
 import {useAuth} from "../../../context/AuthContext";
 import Login from "./Login";
 
@@ -61,26 +60,13 @@ function Callback(){
 
 
     console.log(
-      "Fetching user..."
+      "Saving token..."
     );
-
-
-    const user =
-      await getCurrentUser(
-        accessToken
-      );
-
-
-    console.log(
-      "Spotify user:",
-      user
-    );
-
 
 
     login(
       accessToken,
-      user
+     null
     );
 
 

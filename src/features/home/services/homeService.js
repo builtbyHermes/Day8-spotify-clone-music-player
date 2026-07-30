@@ -1,19 +1,23 @@
 // src/features/home/services/homeService.js
 
-import {hero,popularArtists,recommendations,} from "../data/homeData";
+
+import {
+  hero,
+} from "../data/homeData";
+
+
 import spotifyRequest from "../../../services/spotifyApi";
 
 
 import {
   mapPlaylist,
   mapAlbum,
-  mapRecentlyPlayed,
 } from "../../../utils/spotifyMapper";
 
 
 
 // ========================================
-// Local Data (Temporary Mock Data)
+// Local UI Data
 // ========================================
 
 export function getHero() {
@@ -23,23 +27,9 @@ export function getHero() {
 }
 
 
-export function getPopularArtists() {
-
-  return popularArtists;
-
-}
-
-
-export function getRecommendations() {
-
-  return recommendations;
-
-}
-
-
 
 // ========================================
-// Spotify API Data
+// Spotify Data
 // ========================================
 
 
@@ -66,7 +56,7 @@ export async function getFeaturedPlaylists(token) {
 
 
 
-export async function getFeaturedAlbums(token) {
+export async function getNewReleases(token) {
 
 
   const data = await spotifyRequest(
@@ -81,29 +71,6 @@ export async function getFeaturedAlbums(token) {
   return data.albums.items.map(
 
     mapAlbum
-
-  );
-
-}
-
-
-
-
-export async function getRecentlyPlayed(token) {
-
-
-  const data = await spotifyRequest(
-
-    "/me/player/recently-played?limit=10",
-
-    token
-
-  );
-
-
-  return data.items.map(
-
-    mapRecentlyPlayed
 
   );
 

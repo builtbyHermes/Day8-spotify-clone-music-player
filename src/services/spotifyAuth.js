@@ -17,23 +17,9 @@ const AUTH_ENDPOINT =
 // Permissions your app requests
 
 const SCOPES = [
-
   "user-read-private",
-
   "user-read-email",
-
-  "user-read-playback-state",
-
-  "user-modify-playback-state",
-
-  "user-read-currently-playing",
-
-  "streaming",
-
 ];
-
-
-
 
 
 // =====================================

@@ -1,50 +1,67 @@
 // src/features/home/hooks/useHome.js
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
 
 import { useAuth } from "../../../context/AuthContext";
 
+
 import {
   getHero,
-  getFeaturedAlbums,
   getFeaturedPlaylists,
-  getPopularArtists,
-  getRecentlyPlayed,
-  getRecommendations,
+  getNewReleases,
 } from "../services/homeService";
+
 
 
 function useHome() {
 
-  const { accessToken } = useAuth();
+
+  const {
+    accessToken
+  } = useAuth();
+
 
 
   const [hero, setHero] = useState(null);
 
-  const [featuredAlbums, setFeaturedAlbums] = useState([]);
 
-  const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
-
-  const [popularArtists, setPopularArtists] = useState([]);
-
-  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-
-  const [recommendations, setRecommendations] = useState([]);
+  const [
+    featuredPlaylists,
+    setFeaturedPlaylists
+  ] = useState([]);
 
 
-  const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState(null);
+  const [
+    newReleases,
+    setNewReleases
+  ] = useState([]);
 
- console.log(
-  "featured playlists:",
-  featuredPlaylists
-);
+
+
+  const [
+    loading,
+    setLoading
+  ] = useState(true);
+
+
+
+  const [
+    error,
+    setError
+  ] = useState(null);
+
+
+
 
   useEffect(() => {
 
 
-    async function loadHome() {
+    async function loadHome(){
 
 
       try {
@@ -54,79 +71,63 @@ function useHome() {
 
 
 
-        // -------------------------
-        // Mock Data
-        // -------------------------
+        // Local hero
 
-        setHero(getHero());
-
-        setPopularArtists(
-          getPopularArtists()
-        );
-
-        setRecommendations(
-          getRecommendations()
+        setHero(
+          getHero()
         );
 
 
 
-        // -------------------------
-        // Spotify Data
-        // -------------------------
+        if(!accessToken){
 
-        if (accessToken) {
-
-
-          const [
-
-            playlists,
-
-            albums,
-
-            recentTracks,
-
-          ] = await Promise.all([
-
-
-            getFeaturedPlaylists(
-              accessToken
-            ),
-
-
-            getFeaturedAlbums(
-              accessToken
-            ),
-
-
-            getRecentlyPlayed(
-              accessToken
-            ),
-
-          ]);
-
-
-
-          setFeaturedPlaylists(
-            playlists
-          );
-
-
-          setFeaturedAlbums(
-            albums
-          );
-
-
-          setRecentlyPlayed(
-            recentTracks
-          );
+          return;
 
         }
 
 
-      } catch (err) {
+
+        const [
+
+          playlists,
+
+          albums
+
+        ] = await Promise.all([
 
 
-        console.error(err);
+          getFeaturedPlaylists(
+            accessToken
+          ),
+
+
+          getNewReleases(
+            accessToken
+          )
+
+
+        ]);
+
+
+
+        setFeaturedPlaylists(
+          playlists
+        );
+
+
+        setNewReleases(
+          albums
+        );
+
+
+
+      } catch(err){
+
+
+        console.error(
+          err
+        );
+
 
         setError(err);
 
@@ -136,11 +137,11 @@ function useHome() {
 
         setLoading(false);
 
-
       }
 
 
     }
+
 
 
     loadHome();
@@ -150,20 +151,15 @@ function useHome() {
 
 
 
+
   return {
 
 
     hero,
 
-    featuredAlbums,
-
     featuredPlaylists,
 
-    popularArtists,
-
-    recentlyPlayed,
-
-    recommendations,
+    newReleases,
 
     loading,
 
@@ -173,6 +169,7 @@ function useHome() {
   };
 
 }
+
 
 
 export default useHome;
