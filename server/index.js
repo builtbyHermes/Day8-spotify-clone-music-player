@@ -14,6 +14,10 @@ app.use(express.json());
 
 
 
+// =====================================
+// AUTH CODE EXCHANGE
+// =====================================
+
 app.post(
   "/api/auth/token",
   async(req,res)=>{
@@ -29,6 +33,7 @@ app.post(
         await fetch(
           "https://accounts.spotify.com/api/token",
           {
+
             method:"POST",
 
             headers:{
@@ -83,6 +88,196 @@ app.post(
 
   }
 );
+
+
+
+
+
+// =====================================
+// GET SPOTIFY APP TOKEN
+// (Public catalog access)
+// =====================================
+
+
+async function getSpotifyAppToken(){
+
+
+  const response =
+    await fetch(
+      "https://accounts.spotify.com/api/token",
+      {
+
+        method:"POST",
+
+        headers:{
+
+          "Content-Type":
+          "application/x-www-form-urlencoded"
+
+        },
+
+
+        body:new URLSearchParams({
+
+          grant_type:
+          "client_credentials"
+
+        })
+
+
+      }
+    );
+
+
+
+  const data =
+    await response.json();
+
+
+
+  return data.access_token;
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// FEATURED PLAYLISTS
+// =====================================
+
+
+app.get(
+  "/api/spotify/featured-playlists",
+  async(req,res)=>{
+
+
+    try{
+
+
+      const token =
+        await getSpotifyAppToken();
+
+
+
+      const response =
+        await fetch(
+
+          "https://api.spotify.com/v1/browse/featured-playlists",
+
+          {
+
+            headers:{
+
+              Authorization:
+              `Bearer ${token}`
+
+            }
+
+          }
+
+        );
+
+
+
+      const data =
+        await response.json();
+
+
+
+      res.json(data);
+
+
+
+    }catch(error){
+
+
+      res.status(500)
+      .json({
+        error:error.message
+      });
+
+
+    }
+
+
+  }
+);
+
+
+
+
+
+
+// =====================================
+// NEW RELEASES
+// =====================================
+
+
+app.get(
+  "/api/spotify/new-releases",
+  async(req,res)=>{
+
+
+    try{
+
+
+      const token =
+        await getSpotifyAppToken();
+
+
+
+      const response =
+        await fetch(
+
+          "https://api.spotify.com/v1/browse/new-releases",
+
+          {
+
+            headers:{
+
+              Authorization:
+              `Bearer ${token}`
+
+            }
+
+          }
+
+        );
+
+
+
+      const data =
+        await response.json();
+
+
+
+      res.json(data);
+
+
+
+    }catch(error){
+
+
+      res.status(500)
+      .json({
+        error:error.message
+      });
+
+
+    }
+
+
+  }
+);
+
+
+
+
 
 
 

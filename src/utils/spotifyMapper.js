@@ -48,7 +48,7 @@ export function mapArtist(artist) {
 
     name: artist.name,
 
-    image: artist.images?.[0]?.url ?? ""
+    cover: artist.images?.[0]?.url ?? ""
 
   };
 

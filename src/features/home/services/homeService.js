@@ -1,26 +1,26 @@
 // src/features/home/services/homeService.js
 
-
 import {
   hero,
 } from "../data/homeData";
 
 
-import spotifyRequest from "../../../services/spotifyApi";
-
-
 import {
-  mapPlaylist,
   mapAlbum,
+  mapPlaylist,
 } from "../../../utils/spotifyMapper";
 
 
 
+const API_URL = "http://localhost:4000/api/spotify";
+
+
+
 // ========================================
-// Local UI Data
+// Local Hero
 // ========================================
 
-export function getHero() {
+export function getHero(){
 
   return hero;
 
@@ -29,49 +29,71 @@ export function getHero() {
 
 
 // ========================================
-// Spotify Data
+// Featured Playlists
 // ========================================
 
+export async function getFeaturedPlaylists(){
 
-export async function getFeaturedPlaylists(token) {
+
+  const response =
+    await fetch(
+      `${API_URL}/featured-playlists`
+    );
 
 
-  const data = await spotifyRequest(
+  if(!response.ok){
 
-    "/browse/featured-playlists",
+    throw new Error(
+      "Failed to load playlists"
+    );
 
-    token
+  }
 
-  );
+
+  const data =
+    await response.json();
+
 
 
   return data.playlists.items.map(
-
     mapPlaylist
-
   );
+
 
 }
 
 
 
+// ========================================
+// New Releases
+// ========================================
 
-export async function getNewReleases(token) {
+export async function getNewReleases(){
 
 
-  const data = await spotifyRequest(
+  const response =
+    await fetch(
+      `${API_URL}/new-releases`
+    );
 
-    "/browse/new-releases",
 
-    token
+  if(!response.ok){
 
-  );
+    throw new Error(
+      "Failed to load albums"
+    );
+
+  }
+
+
+  const data =
+    await response.json();
+
 
 
   return data.albums.items.map(
-
     mapAlbum
-
   );
+
 
 }

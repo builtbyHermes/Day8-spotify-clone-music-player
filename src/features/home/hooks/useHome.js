@@ -6,9 +6,6 @@ import {
 } from "react";
 
 
-import { useAuth } from "../../../context/AuthContext";
-
-
 import {
   getHero,
   getFeaturedPlaylists,
@@ -18,12 +15,6 @@ import {
 
 
 function useHome() {
-
-
-  const {
-    accessToken
-  } = useAuth();
-
 
 
   const [hero, setHero] = useState(null);
@@ -58,10 +49,11 @@ function useHome() {
 
 
 
+
   useEffect(() => {
 
 
-    async function loadHome(){
+    async function loadHome() {
 
 
       try {
@@ -71,7 +63,7 @@ function useHome() {
 
 
 
-        // Local hero
+        // Local hero data
 
         setHero(
           getHero()
@@ -79,13 +71,8 @@ function useHome() {
 
 
 
-        if(!accessToken){
 
-          return;
-
-        }
-
-
+        // Public Spotify catalog data
 
         const [
 
@@ -96,35 +83,41 @@ function useHome() {
         ] = await Promise.all([
 
 
-          getFeaturedPlaylists(
-            accessToken
-          ),
+          getFeaturedPlaylists(),
 
 
-          getNewReleases(
-            accessToken
-          )
+          getNewReleases()
 
 
         ]);
 
 
 
+
+
         setFeaturedPlaylists(
+
           playlists
+
         );
+
 
 
         setNewReleases(
+
           albums
+
         );
 
 
 
-      } catch(err){
+
+
+      } catch (err) {
 
 
         console.error(
+          "Home loading error:",
           err
         );
 
@@ -132,10 +125,12 @@ function useHome() {
         setError(err);
 
 
+
       } finally {
 
 
         setLoading(false);
+
 
       }
 
@@ -147,7 +142,10 @@ function useHome() {
     loadHome();
 
 
-  }, [accessToken]);
+
+  }, []);
+
+
 
 
 
@@ -167,6 +165,7 @@ function useHome() {
 
 
   };
+
 
 }
 

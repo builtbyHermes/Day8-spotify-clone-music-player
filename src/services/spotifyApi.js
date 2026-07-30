@@ -1,80 +1,53 @@
-// src/services/spotifyApi.js
-
-
-const BASE_URL = "https://api.spotify.com/v1";
-
-
-async function spotifyRequest(endpoint, token) {
-
-
-  console.log(
-    "Spotify endpoint:",
-    endpoint
-  );
-
-
-  console.log(
-    "TOKEN SENT:",
-    token
-  );
+const BASE_URL =
+ "https://api.spotify.com/v1";
 
 
 
-  const response = await fetch(
+async function spotifyRequest(
+ endpoint,
+ token
+){
 
-    `${BASE_URL}${endpoint}`,
 
-    {
+ const response =
+ await fetch(
+   `${BASE_URL}${endpoint}`,
+   {
 
-      headers: {
-
-        Authorization:
-          `Bearer ${token}`,
-
-      },
-
+    headers:{
+      Authorization:
+      `Bearer ${token}`
     }
 
-  );
+   }
+ );
 
 
 
-  console.log(
-    "Spotify response status:",
-    response.status
-  );
+ if(!response.ok){
 
 
-
-  if (!response.ok) {
-
-
-    const errorText =
-      await response.text();
+   const error =
+   await response.json();
 
 
-
-    console.error(
-
-      "Spotify API ERROR:",
-
-      errorText
-
-    );
+   console.error(
+     "Spotify API Error:",
+     error
+   );
 
 
-    throw new Error(
-      "Spotify API request failed"
-    );
+   throw new Error(
+    "Spotify request failed"
+   );
 
-  }
+ }
 
 
+ return response.json();
 
-  return response.json();
 
 }
-
 
 
 export default spotifyRequest;
