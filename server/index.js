@@ -1,3 +1,5 @@
+// server/index.js
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -8,25 +10,29 @@ dotenv.config();
 const app = express();
 
 
+
 app.use(cors());
 
 app.use(express.json());
 
 
 
+
 // =====================================
-// AUTH CODE EXCHANGE
+// AUTHORIZATION CODE EXCHANGE
+// React Callback.jsx uses this
 // =====================================
 
 app.post(
   "/api/auth/token",
-  async(req,res)=>{
+  async (req, res) => {
 
 
-    const {code}=req.body;
+    const { code } = req.body;
 
 
-    try{
+
+    try {
 
 
       const response =
@@ -34,29 +40,37 @@ app.post(
           "https://accounts.spotify.com/api/token",
           {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
+
+            headers: {
+
               "Content-Type":
               "application/x-www-form-urlencoded"
+
             },
 
 
-            body:new URLSearchParams({
+            body: new URLSearchParams({
 
               grant_type:
               "authorization_code",
 
+
               code,
+
 
               redirect_uri:
               process.env.REDIRECT_URI,
 
+
               client_id:
               process.env.SPOTIFY_CLIENT_ID,
 
+
               client_secret:
               process.env.SPOTIFY_CLIENT_SECRET,
+
 
             })
 
@@ -74,12 +88,15 @@ app.post(
 
 
 
-    }catch(error){
+    } catch (error) {
 
 
       res.status(500)
       .json({
-        error:error.message
+
+        error:
+        error.message
+
       });
 
 
@@ -93,13 +110,34 @@ app.post(
 
 
 
+
+
 // =====================================
 // GET SPOTIFY APP TOKEN
-// (Public catalog access)
+// Client Credentials Flow
+// Used for public Spotify data
 // =====================================
 
 
 async function getSpotifyAppToken(){
+
+
+  const clientId =
+    process.env.SPOTIFY_CLIENT_ID;
+
+
+  const clientSecret =
+    process.env.SPOTIFY_CLIENT_SECRET;
+
+
+
+  const encodedCredentials =
+    Buffer
+      .from(
+        `${clientId}:${clientSecret}`
+      )
+      .toString("base64");
+
 
 
   const response =
@@ -107,20 +145,30 @@ async function getSpotifyAppToken(){
       "https://accounts.spotify.com/api/token",
       {
 
+
         method:"POST",
+
 
         headers:{
 
+
+          Authorization:
+          `Basic ${encodedCredentials}`,
+
+
           "Content-Type":
           "application/x-www-form-urlencoded"
+
 
         },
 
 
         body:new URLSearchParams({
 
+
           grant_type:
           "client_credentials"
+
 
         })
 
@@ -135,6 +183,25 @@ async function getSpotifyAppToken(){
 
 
 
+
+  if(!response.ok){
+
+
+    console.log(
+      "Spotify App Token Error:",
+      data
+    );
+
+
+    throw new Error(
+      "Could not get Spotify app token"
+    );
+
+
+  }
+
+
+
   return data.access_token;
 
 
@@ -146,8 +213,11 @@ async function getSpotifyAppToken(){
 
 
 
+
+
 // =====================================
 // FEATURED PLAYLISTS
+// Public endpoint
 // =====================================
 
 
@@ -171,12 +241,16 @@ app.get(
 
           {
 
+
             headers:{
+
 
               Authorization:
               `Bearer ${token}`
 
+
             }
+
 
           }
 
@@ -189,6 +263,20 @@ app.get(
 
 
 
+
+      if(!response.ok){
+
+
+        throw new Error(
+          data.error?.message ||
+          "Spotify request failed"
+        );
+
+
+      }
+
+
+
       res.json(data);
 
 
@@ -196,9 +284,15 @@ app.get(
     }catch(error){
 
 
+      console.error(error);
+
+
       res.status(500)
       .json({
-        error:error.message
+
+        error:
+        error.message
+
       });
 
 
@@ -213,8 +307,12 @@ app.get(
 
 
 
+
+
+
 // =====================================
 // NEW RELEASES
+// Public endpoint
 // =====================================
 
 
@@ -238,12 +336,16 @@ app.get(
 
           {
 
+
             headers:{
+
 
               Authorization:
               `Bearer ${token}`
 
+
             }
+
 
           }
 
@@ -256,6 +358,20 @@ app.get(
 
 
 
+
+      if(!response.ok){
+
+
+        throw new Error(
+          data.error?.message ||
+          "Spotify request failed"
+        );
+
+
+      }
+
+
+
       res.json(data);
 
 
@@ -263,9 +379,15 @@ app.get(
     }catch(error){
 
 
+      console.error(error);
+
+
       res.status(500)
       .json({
-        error:error.message
+
+        error:
+        error.message
+
       });
 
 
@@ -281,11 +403,17 @@ app.get(
 
 
 
+
+// =====================================
+// SERVER START
+// =====================================
+
+
 app.listen(
  4000,
  ()=>{
-  console.log(
-   "Server running on port 4000"
-  )
+   console.log(
+    "Server running on port 4000"
+   );
  }
 );
